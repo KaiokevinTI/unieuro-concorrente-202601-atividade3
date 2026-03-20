@@ -1,52 +1,145 @@
-# unieuro-concorrente-202601-atividade3
-Paralelizar avaliador de arquivos de log.
+# 📊 Relatório de Computação Paralela
+## Análise Paralela de Arquivos de Log
 
-## Passo-a-passo
+---
 
-1) Implemente a solução paralela que possa ser executada com 2, 4, 8, 12 processos
-2) Execute o experimento para medir os tempos em paralelo
-3) Construa um relatório de análise dos resultados (MODELO DO RELATÓRIO RELATORIO_MODELO.MD - SALVAR COMO README.MD)
-4) Crie um repositório público no GitHub incluindo os programas python e o README.MD no formato de relatório.
-5) Responda o questionário no AVA
+## 👨‍🎓 Informações
 
-## Problema
+| Campo       | Informação                          |
+|------------|----------------------------------|
+| Disciplina | Computação Paralela e Distribuída |
+| Aluno      | Kaio Kevin                        |
+| Professor  | Rafael Marconi Ramos              |
+| Data       | 14/03/2026                        |
 
-Uma empresa precisa processar grandes volumes de arquivos texto contendo logs operacionais. Cada arquivo deve ser analisado para extrair informações relevantes que serão utilizadas em relatórios gerenciais.
+---
 
-Atualmente, o sistema realiza esse processamento de forma sequencial (serial), o que gera um tempo elevado de execução quando há muitos arquivos.
+## 🧩 1. Descrição do Problema
 
-Para melhorar o desempenho, deseja-se evoluir o sistema para uma versão paralela, utilizando o modelo produtor-consumidor com buffer limitado.
+O objetivo deste trabalho foi analisar arquivos de log, contabilizando:
+
+- Total de linhas  
+- Total de palavras  
+- Total de caracteres  
+- Frequência das palavras-chave: **erro, warning, info**
+
+### ⚙️ Abordagens
+
+- **Serial:** processamento sequencial de arquivos  
+- **Paralelo:** processamento simultâneo utilizando múltiplos processos  
+
+---
+
+### 📂 Entradas
+
+- Pasta `log2` contendo **1000 arquivos de log**
+
+**Volume total processado:**
+
+| Métrica     | Valor            |
+|------------|------------------|
+| Linhas     | 10.000.000       |
+| Palavras   | 200.000.000      |
+| Caracteres | 1.366.663.305    |
+
+---
+
+### 🎯 Objetivo
+
+Reduzir o tempo total de execução utilizando paralelismo baseado em múltiplos processos.
+
+---
+
+## 💻 2. Ambiente Experimental
+
+| Item                 | Descrição             |
+|----------------------|----------------------|
+| Processador          | Intel Core i5-12450  |
+| Núcleos              | 12 threads lógicas   |
+| Memória RAM          | 16 GB                |
+| Sistema Operacional  | Windows 11           |
+| Linguagem            | Python 3.13          |
+| Biblioteca           | multiprocessing      |
+
+---
+
+## 🧪 3. Metodologia
+
+### ⏱️ Medição de Tempo
+
+``python
+time.time()
+
+## ⚙️ Configurações Testadas
+
+2 processos
+
+4 processos
+
+8 processos
+
+12 processos
+
+## 📌 Condições de Execução
+
+Processamento paralelo por arquivo
+
+Uso de multiprocessing.Pool
+
+Execução local
+
+Máquina com uso normal do sistema
+
+---
+
+### 📈 4. Resultados Experimentais
+
+| Processos | Tempo (s) | Speedup | Eficiência |
+| --------- | --------- | ------- | ---------- |
+| 2         | 51.0305   | 0.3404  | 0.1702     |
+| 4         | 28.4915   | 0.6094  | 0.1523     |
+| 8         | 18.9419   | 0.9166  | 0.1146     |
+| 12        | 16.8709   | 1.0294  | 0.0858     |
 
 
-## Exemplo1
-No processamento da pasta log1 o resultado esperado é:
+---
 
-=== RESULTADO CONSOLIDADO ===  
-Total de linhas: 600  
-Total de palavras: 12000  
-Total de caracteres: 82085  
-  
-Contagem de palavras-chave:  
-  erro: 1993  
-  warning: 1998  
-  info: 1983  
+### 🧮 5. Cálculo
+
+🔹 Speedup
+Speedup(p) = T(1) / T(p)
+🔹 Eficiência
+Eficiência(p) = Speedup(p) / p
 
 
-## Dicas
+---
 
-1) Implemente a solução utilizando os arquivos da pasta log1.
-2) Realize o experimento e construa o relatório utilizando os arquivos da pasta log2.
+### 🔍 6. Análise dos Resultados
 
-=== EXECUÇÃO SERIAL ===
-Arquivos processados: 1000  
-Tempo total: 115.9621 segundos  
-  
-=== RESULTADO CONSOLIDADO ===  
-Total de linhas: 10000000  
-Total de palavras: 200000000  
-Total de caracteres: 1366663305  
-  
-Contagem de palavras-chave:  
-  erro: 33332083  
-  warning: 33330520  
-  info: 33329065  
+O aumento de processos reduziu o tempo total de execução
+
+Melhor desempenho observado com 12 processos
+
+Speedup máximo ≈ 1.03
+
+⚠️ Limitações Observadas
+
+Overhead de criação de processos
+
+Gargalo de leitura de disco (I/O)
+
+Paralelismo não escala linearmente
+
+---
+
+### 🧾 7. Conclusão
+
+A paralelização apresentou ganhos limitados, devido principalmente ao custo de I/O e overhead.
+
+## ✔️ Principais Pontos
+
+Melhor configuração: 12 processos
+
+Eficiência diminui conforme aumenta o número de processos
+
+O ganho de desempenho não é proporcional ao número de processos
